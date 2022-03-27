@@ -6,35 +6,55 @@ public class ArrayStorage {
     Resume[] storage = new Resume[10000];
     int count = 0;
 
-    void clear() {  //удаляем все значения в массиве, обнуляем счетчик
+    //удаляем все значения в массиве, обнуляем счетчик
+    void clear() {
         for (int i = 0; i < count; i++) {
             storage[i] = null;
         }
         count = 0;
     }
 
-    void save(Resume r) {  //добавляем резюме в массив, увеличиваем счетчик на 1.
+    //добавляем резюме в массив, увеличиваем счетчик на 1.
+    void save(Resume r) {
         storage[count] = r;
         count++;
     }
 
-    Resume get(String uuid) {  //возвращаем резюме по его uuid
-        return storage[Integer.parseInt(uuid)];
+    //возвращаем резюме по его uuid, если резюме с заданным uuid в массиве нет, возвращаем null.
+    Resume get(String uuid) {
+        int index = indexResume(uuid);
+        if (index < 0) {
+            return null;
+        }
+        return storage[index];
     }
 
-    void delete(String uuid) {   //удаляем элемент массива, сдвигаем все элементы стоящие после него на -1, уменьшаем счетчик на 1
-        int id = Integer.parseInt(uuid);
-        storage[id] = null;
-        for (int i = id; i < count; i++) {
-            storage[i] = storage[i + 1];
+    //удаляем элемент массива, сдвигаем все элементы стоящие после него на -1, уменьшаем счетчик на 1
+    void delete(String uuid) {
+        int index = indexResume(uuid);
+        if (index >= 0) {
+            storage[index] = null;
+            for (int i = index; i < count; i++) {
+                storage[i] = storage[i + 1];
+            }
+            count--;
         }
-        count--;
+    }
+
+    int indexResume(String uuid) {
+        for (int i = 0; i < count; i++) {
+            if (uuid.equals(storage[i].uuid)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
-    Resume[] getAll() {  // возвращааем массив резюме без null
+    // возвращааем массив резюме без null
+    Resume[] getAll() {
         Resume[] resumes = new Resume[count];
         for (int i = 0; i < count; i++)
             resumes[i] = storage[i];
@@ -44,4 +64,6 @@ public class ArrayStorage {
     int size() {
         return count;
     }
+
+
 }
