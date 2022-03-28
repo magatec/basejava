@@ -14,34 +14,45 @@ public class ArrayStorage {
         count = 0;
     }
 
-    //добавляем резюме в массив, увеличиваем счетчик на 1.
+    //если не заполнен добавляем резюме, увеличиваем счетчик на 1.
     void save(Resume r) {
-        storage[count] = r;
-        count++;
+        if (count < storage.length) {
+            storage[count] = r;
+            count++;
+        }
     }
 
     //возвращаем резюме по его uuid, если резюме с заданным uuid в массиве нет, возвращаем null.
     Resume get(String uuid) {
-        int index = indexResume(uuid);
+        int index = findResume(uuid);
         if (index < 0) {
             return null;
         }
         return storage[index];
     }
 
+    //
+    void update(Resume r){
+        int index = findResume(r.uuid);
+        if (index >= 0){
+            storage[index] = r;
+        }
+    }
+
+
     //удаляем элемент массива, сдвигаем все элементы стоящие после него на -1, уменьшаем счетчик на 1
     void delete(String uuid) {
-        int index = indexResume(uuid);
+        int index = findResume(uuid);
         if (index >= 0) {
             storage[index] = null;
-            for (int i = index; i < count; i++) {
+            for (int i = index; i < count - 1; i++) {
                 storage[i] = storage[i + 1];
             }
             count--;
         }
     }
-
-    int indexResume(String uuid) {
+    //проверяем наличие резюме в массиве, возвращаем его индекс или -1
+    int findResume(String uuid) {
         for (int i = 0; i < count; i++) {
             if (uuid.equals(storage[i].uuid)) {
                 return i;
