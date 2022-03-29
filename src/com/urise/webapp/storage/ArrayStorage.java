@@ -9,22 +9,26 @@ import java.util.Arrays;
  */
 
 public class ArrayStorage {
-    private Resume[] storage = new Resume[10000];
+    private final Resume[] storage = new Resume[10000];
     private int count = 0;
 
     //удаляем все значения в массиве, обнуляем счетчик
     public void clear() {
-        Arrays.fill(storage, null);
+        Arrays.fill(storage, 0, count, null);
         count = 0;
     }
 
     //если массив не заполнен и резюме в нем нет, добавляем резюме, увеличиваем счетчик на 1.
     public void save(Resume r) {
-        if (count < storage.length && findIndex(r.toString()) < 0) {
-            storage[count] = r;
-            count++;
+        if (count < storage.length) {
+            if (findIndex(r.getUuid()) < 0) {
+                storage[count] = r;
+                count++;
+            } else {
+                System.out.println("ERROR: Резюме uuid = " + r.getUuid() + " уже есть в хранилище.");
+            }
         } else {
-            System.out.println("ERROR: Резюме уже есть в хранилище.");
+            System.out.println("ERROR: Резюме uuid = " + r.getUuid() + " невозможно сохранить. Хранилище переполнено.");
         }
     }
 
@@ -32,6 +36,7 @@ public class ArrayStorage {
     public Resume get(String uuid) {
         int index = findIndex(uuid);
         if (index < 0) {
+            System.out.println("ERROR: Резюме uuid = " + uuid + " нет в хранилище.");
             return null;
         }
         return storage[index];
@@ -43,7 +48,7 @@ public class ArrayStorage {
         if (index >= 0) {
             storage[index] = r;
         } else {
-            System.out.println("ERROR: Нет доступного резюме для обновления.");
+            System.out.println("ERROR: Резюме с uuid = "+ r.getUuid() + " нет в хранилище.");
         }
     }
 
@@ -52,19 +57,17 @@ public class ArrayStorage {
         int index = findIndex(uuid);
         if (index >= 0) {
             storage[index] = null;
-            for (int i = index; i < count - 1; i++) {
-                storage[i] = storage[i + 1];
-            }
+            if (count - 1 - index >= 0) System.arraycopy(storage, index + 1, storage, index, count - 1 - index);
             count--;
         } else {
-            System.out.println("ERROR: Указанного резюме не существует.");
+            System.out.println("ERROR: Указанного резюме с uuid = "+ uuid +" не существует.");
         }
     }
 
     //проверяем наличие резюме в массиве, возвращаем его индекс или -1
     private int findIndex(String uuid) {
         for (int i = 0; i < count; i++) {
-            if (uuid.equals(storage[i].toString())) {
+            if (uuid.equals(storage[i].getUuid())) {
                 return i;
             }
         }
@@ -76,8 +79,7 @@ public class ArrayStorage {
      */
     // возвращааем массив резюме без null
     public Resume[] getAll() {
-        Resume[] resumes = Arrays.copyOf(storage, count);
-        return resumes;
+            return Arrays.copyOf(storage, count);
     }
 
     public int size() {
