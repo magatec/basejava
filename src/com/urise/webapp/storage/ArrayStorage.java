@@ -8,8 +8,9 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 
-public class ArrayStorage {
-    private final Resume[] storage = new Resume[10000];
+public class ArrayStorage implements Storage{
+    private static final int STORAGE_LIMIT = 10000;
+    private final Resume[] storage = new Resume[STORAGE_LIMIT];
     private int count = 0;
 
     //удаляем все значения в массиве, обнуляем счетчик
@@ -20,7 +21,7 @@ public class ArrayStorage {
 
     //если массив не заполнен и резюме в нем нет, добавляем резюме, увеличиваем счетчик на 1.
     public void save(Resume r) {
-        if (count < storage.length) {
+        if (count < STORAGE_LIMIT) {
             if (findIndex(r.getUuid()) < 0) {
                 storage[count] = r;
                 count++;
