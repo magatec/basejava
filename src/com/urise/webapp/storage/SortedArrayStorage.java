@@ -8,19 +8,16 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
     public void save(Resume r) {
-        int tempIndex = findIndex(r.getUuid());
+        int index = findIndex(r.getUuid());
         if (count < STORAGE_LIMIT) {
-            if (findIndex(r.getUuid()) < 0) {
+            if (index < 0) {
                 if (count == 0) {
                     storage[count] = r;
                 } else {
-                    tempIndex = (tempIndex + 1) * (-1);
+                    index = -index - 1;
                     int i = count;
-                    while (i >= tempIndex) {
-                        storage[i + 1] = storage[i];
-                        i--;
-                    }
-                    storage[tempIndex] = r;
+                    System.arraycopy(storage,index,storage,index+1,count-index);
+                    storage[index] = r;
                 }
                 count++;
             } else {
