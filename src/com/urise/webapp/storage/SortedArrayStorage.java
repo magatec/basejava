@@ -11,14 +11,10 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         int index = findIndex(r.getUuid());
         if (count < STORAGE_LIMIT) {
             if (index < 0) {
-                if (count == 0) {
-                    storage[count] = r;
-                } else {
-                    index = -index - 1;
-                    int i = count;
-                    System.arraycopy(storage,index,storage,index+1,count-index);
-                    storage[index] = r;
-                }
+                index = -index - 1;
+                int i = count;
+                System.arraycopy(storage,index,storage,index+1,count-index);
+                storage[index] = r;
                 count++;
             } else {
                 System.out.println("ERROR: Резюме uuid = " + r.getUuid() + " уже есть в хранилище.");
