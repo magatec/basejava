@@ -19,7 +19,7 @@ public class ArrayStorage extends AbstractArrayStorage{
     }
 
     @Override
-    protected void getSave(Resume r){
+    protected void saveResume(Resume r){
         storage[count] = r;
     }
 }
