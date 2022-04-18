@@ -47,6 +47,7 @@ public abstract class AbstractArrayStorageTest {
     @Test
     void save() {
         storage.save(RESUME_0);
+        assertThrows(ExistStorageException.class, () -> storage.save(RESUME_0));
         assertEquals(4, storage.size());
     }
 
@@ -54,8 +55,7 @@ public abstract class AbstractArrayStorageTest {
     void saveOverSizeStorageException() {
         try {
             for (int i = 4; i <= 10000; i++) {
-                String s = "uuid" + i;
-                storage.save(new Resume(s));
+                storage.save(new Resume("uuid" + i));
             }
         } catch (StorageException e) {
             fail("Переполнение произошло раньше времени.");
