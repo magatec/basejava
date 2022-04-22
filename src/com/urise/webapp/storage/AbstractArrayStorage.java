@@ -10,60 +10,48 @@ import java.util.Arrays;
 public abstract class AbstractArrayStorage extends AbstractStorage {
     protected static final int STORAGE_LIMIT = 10000;
     protected final Resume[] storage = new Resume[STORAGE_LIMIT];
-    protected int count = 0;
+    protected int size = 0;
 
     public void clear() {
-        Arrays.fill(storage, 0, count, null);
-        count = 0;
+        Arrays.fill(storage, 0, size, null);
+        size = 0;
     }
 
     public void save(Resume r) {
-        if (count == STORAGE_LIMIT) {
+        if (size == STORAGE_LIMIT) {
             throw new StorageException("Хранилище переполнено.", r.getUuid());
         }
-        if (findIndex(r.getUuid()) >= 0) {
-            throw new ExistStorageException(r.getUuid());
-        }
+        resumeExistStorage(r);
         saveResume(r);
-        count++;
+        size++;
     }
 
     protected abstract void saveResume(Resume r);
 
     public void update(Resume r) {
-        int index = findIndex(r.getUuid());
-        if (index < 0) {
-            throw new NotExistStorageException(r.getUuid());
-        }
-        storage[index] = r;
+        resumeNotExistStorage(r);
+        storage[findIndex(r.getUuid())] = r;
 
     }
 
     public void delete(String uuid) {
         int index = findIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
+        uuidNotExistStorage(uuid);
         storage[index] = null;
-        if (count - 1 - index >= 0) System.arraycopy(storage, index + 1, storage, index, count - 1 - index);
-        count--;
+        if (size - 1 - index >= 0) System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
+        size--;
     }
 
     public Resume get(String uuid) {
-        int index = findIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-        return storage[index];
+        uuidNotExistStorage(uuid);
+        return storage[findIndex(uuid)];
     }
 
     public Resume[] getAll() {
-        return Arrays.copyOf(storage, count);
+        return Arrays.copyOf(storage, size);
     }
 
     public int size() {
-        return count;
+        return size;
     }
-
-    protected abstract int findIndex(String uuid);
 }
