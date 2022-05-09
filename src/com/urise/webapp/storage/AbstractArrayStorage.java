@@ -1,7 +1,5 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.exception.ExistStorageException;
-import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
@@ -17,30 +15,28 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size = 0;
     }
 
-    public void save(Resume r) {
+    public void toSave(Resume r) {
         if (size == STORAGE_LIMIT) {
             throw new StorageException("Хранилище переполнено.", r.getUuid());
         }
-        uuidExistStorage(r.getUuid());
         saveResume(r);
         size++;
     }
 
     protected abstract void saveResume(Resume r);
 
-    public void update(Resume r) {
-        storage[uuidNotExistStorage(r.getUuid())] = r;
+    public void toUpdate(Resume r, int index) {
+        storage[index] = r;
     }
 
-    public void delete(String uuid) {
-        int index = uuidNotExistStorage(uuid);
+    public void toDelete(int index) {
         storage[index] = null;
         if (size - 1 - index >= 0) System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
         size--;
     }
 
-    public Resume get(String uuid) {
-        return storage[uuidNotExistStorage(uuid)];
+    public Resume toGet(int index) {
+        return storage[index];
     }
 
     public Resume[] getAll() {
