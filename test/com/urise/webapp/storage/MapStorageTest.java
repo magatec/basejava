@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,7 +32,7 @@ class MapStorageTest {
     }
 
     @Test
-    void saveToStorage() {
+    void save() {
         storage.save(RESUME_0);
         assertThrows(ExistStorageException.class, () -> storage.save(RESUME_0));
         assertEquals(4, storage.size());
@@ -45,7 +44,7 @@ class MapStorageTest {
     }
 
     @Test
-    void updateStorage() {
+    void update() {
         storage.update(RESUME_1);
         assertSame(RESUME_1, storage.get(UUID_1));
     }
@@ -56,7 +55,7 @@ class MapStorageTest {
     }
 
     @Test
-    void delFormStorage() {
+    void delete() {
         storage.delete(UUID_1);
         assertEquals(2, storage.size());
         assertThrows(NotExistStorageException.class, () -> storage.get(UUID_1));
@@ -68,7 +67,7 @@ class MapStorageTest {
     }
 
     @Test
-    void getFromStorage() {
+    void get() {
         assertEquals(RESUME_1, storage.get(UUID_1));
     }
 

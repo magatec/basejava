@@ -9,13 +9,13 @@ public abstract class AbstractStorage implements Storage {
 
     protected abstract void saveToStorage(Resume r);
 
-    protected abstract void updateStorage(Resume r, Object index);
+    protected abstract void updateStorage(Resume r, Object searchKey);
 
-    protected abstract void delFormStorage(Object index);
+    protected abstract void delFormStorage(Object searchKey);
 
-    protected abstract Resume getFromStorage(Object index);
+    protected abstract Resume getFromStorage(Object searchKey);
 
-    protected abstract boolean isExist(Object index);
+    protected abstract boolean isExist(Object searchKey);
 
     public void save(Resume r) {
         if (!findNotExistedIndex(r.getUuid())) {
@@ -24,33 +24,33 @@ public abstract class AbstractStorage implements Storage {
     }
 
     public void update(Resume r) {
-        Object index = findExistedIndex(r.getUuid());
-        updateStorage(r, index);
+        Object searchKey = findExistedIndex(r.getUuid());
+        updateStorage(r, searchKey);
     }
 
     public void delete(String uuid) {
-        Object index = findExistedIndex(uuid);
-        delFormStorage(index);
+        Object searchKey = findExistedIndex(uuid);
+        delFormStorage(searchKey);
     }
 
     public Resume get(String uuid) {
-        Object index = findExistedIndex(uuid);
-        return getFromStorage(index);
+        Object searchKey = findExistedIndex(uuid);
+        return getFromStorage(searchKey);
     }
 
     public boolean findNotExistedIndex(String uuid) {
-        Object index = findIndex(uuid);
-        if (isExist(index)) {
+        Object searchKey = findIndex(uuid);
+        if (isExist(searchKey)) {
             throw new ExistStorageException(uuid);
         }
         return false;
     }
 
     public Object findExistedIndex(String uuid) {
-        Object index = findIndex(uuid);
-        if (!isExist(index)) {
+        Object searchKey = findIndex(uuid);
+        if (!isExist(searchKey)) {
             throw new NotExistStorageException(uuid);
         }
-        return index;
+        return searchKey;
     }
 }

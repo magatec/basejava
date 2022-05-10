@@ -8,8 +8,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected void saveResume(Resume r) {
-        int i = (Integer) findIndex(r.getUuid());
-        int index = -i - 1;
+        int index = -(Integer) findIndex(r.getUuid()) - 1;
         System.arraycopy(storage, index, storage, index + 1, size - index);
         storage[index] = r;
     }

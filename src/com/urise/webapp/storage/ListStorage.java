@@ -24,13 +24,12 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected Object findIndex(String uuid) {
-        Object index;
         for (int i = 0; i < storage.size(); i++) {
             if (uuid.equals(storage.get(i).getUuid())) {
-                return index = (Object) i;
+                return i;
             }
         }
-        return index = -1;
+        return -1;
     }
 
     public boolean isExist(Object index) {
@@ -49,8 +48,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected void delFormStorage(Object index) {
-        int i = (Integer) index;
-        storage.remove(i);
+        storage.remove((Integer) index);
     }
 
     @Override

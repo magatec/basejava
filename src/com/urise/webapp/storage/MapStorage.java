@@ -11,22 +11,15 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected Object findIndex(String uuid) {
-        for (Map.Entry<String, Resume> entry : storage.entrySet()) {
-            if (entry.getKey().equals(uuid)) {
-                return uuid;
-            }
+        if (storage.containsKey(uuid)) {
+            return uuid;
         }
         return null;
     }
 
     @Override
-    protected boolean isExist(Object index) {
-        for (Map.Entry<String, Resume> entry : storage.entrySet()) {
-            if (entry.getKey().equals(index)) {
-                return true;
-            }
-        }
-        return false;
+    protected boolean isExist(Object key) {
+        return key != null;
     }
 
     @Override
