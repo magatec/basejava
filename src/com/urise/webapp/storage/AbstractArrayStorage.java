@@ -15,7 +15,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size = 0;
     }
 
-    public void toSave(Resume r) {
+    public void saveToStorage(Resume r) {
         if (size == STORAGE_LIMIT) {
             throw new StorageException("Хранилище переполнено.", r.getUuid());
         }
@@ -25,18 +25,19 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected abstract void saveResume(Resume r);
 
-    public void toUpdate(Resume r, int index) {
-        storage[index] = r;
+    public void updateStorage(Resume r, Object index) {
+        storage[(Integer) index] = r;
     }
 
-    public void toDelete(int index) {
-        storage[index] = null;
-        if (size - 1 - index >= 0) System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
+    public void delFormStorage(Object index) {
+        int i = (Integer) index;
+        storage[i] = null;
+        if (size - 1 - i >= 0) System.arraycopy(storage, i + 1, storage, i, size - 1 - i);
         size--;
     }
 
-    public Resume toGet(int index) {
-        return storage[index];
+    public Resume getFromStorage(Object index) {
+        return storage[(Integer) index];
     }
 
     public Resume[] getAll() {
@@ -45,5 +46,9 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     public int size() {
         return size;
+    }
+
+    protected boolean isExist(Object index) {
+        return (Integer) index >= 0;
     }
 }

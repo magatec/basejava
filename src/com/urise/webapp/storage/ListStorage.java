@@ -14,9 +14,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     public Resume[] getAll() {
-        Resume[] resumes = new Resume[storage.size()];
-        resumes = storage.toArray(resumes);
-        return resumes;
+        return storage.toArray(Resume[]::new);
     }
 
     @Override
@@ -25,32 +23,38 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected int findIndex(String uuid) {
+    protected Object findIndex(String uuid) {
+        Object index;
         for (int i = 0; i < storage.size(); i++) {
             if (uuid.equals(storage.get(i).getUuid())) {
-                return i;
+                return index = (Object) i;
             }
         }
-        return -1;
+        return index = -1;
+    }
+
+    public boolean isExist(Object index) {
+        return (Integer) index >= 0;
     }
 
     @Override
-    protected void toSave(Resume r) {
+    protected void saveToStorage(Resume r) {
         storage.add(r);
     }
 
     @Override
-    protected void toUpdate(Resume r, int index) {
-        storage.set(index, r);
+    protected void updateStorage(Resume r, Object index) {
+        storage.set((Integer) index, r);
     }
 
     @Override
-    protected void toDelete(int index) {
-        storage.remove(index);
+    protected void delFormStorage(Object index) {
+        int i = (Integer) index;
+        storage.remove(i);
     }
 
     @Override
-    protected Resume toGet(int index) {
-        return storage.get(index);
+    protected Resume getFromStorage(Object index) {
+        return storage.get((Integer) index);
     }
 }
