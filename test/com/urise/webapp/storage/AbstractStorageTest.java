@@ -2,14 +2,15 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
-import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-public abstract class AbstractArrayStorageTest {
+public abstract class AbstractStorageTest {
     public Storage storage;
 
     private static final String UUID_0 = "uuid0";
@@ -21,10 +22,9 @@ public abstract class AbstractArrayStorageTest {
     private static final String UUID_3 = "uuid3";
     private static final Resume RESUME_3 = new Resume(UUID_3);
 
-    public AbstractArrayStorageTest(Storage storage) {
+    public AbstractStorageTest(Storage storage) {
         this.storage = storage;
     }
-
 
     @BeforeEach
     public void setUp() {
@@ -53,18 +53,6 @@ public abstract class AbstractArrayStorageTest {
     }
 
     @Test
-    void saveOverSizeStorageException() {
-        try {
-            for (int i = 4; i <= 10000; i++) {
-                storage.save(new Resume("uuid" + i));
-            }
-        } catch (StorageException e) {
-            fail("Переполнение произошло раньше времени.");
-        }
-        assertThrows(StorageException.class, () -> storage.save(RESUME_0));
-    }
-
-    @Test
     void update() {
         storage.update(RESUME_1);
         assertSame(RESUME_1, storage.get(UUID_1));
@@ -83,11 +71,6 @@ public abstract class AbstractArrayStorageTest {
     }
 
     @Test
-    void deleteNotExistStorageException() {
-        assertThrows(NotExistStorageException.class, () -> storage.delete(UUID_0));
-    }
-
-    @Test
     void get() {
         assertEquals(RESUME_1, storage.get(UUID_1));
     }
@@ -100,6 +83,7 @@ public abstract class AbstractArrayStorageTest {
     @Test
     void getAll() {
         Resume[] actual = storage.getAll();
+        Arrays.sort(actual);
         Resume[] expected = {RESUME_1, RESUME_2, RESUME_3};
         assertArrayEquals(expected, actual);
     }

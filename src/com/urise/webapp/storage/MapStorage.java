@@ -11,10 +11,7 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected Object findIndex(String uuid) {
-        if (storage.containsKey(uuid)) {
-            return uuid;
-        }
-        return null;
+        return storage.containsKey(uuid) ? uuid : null;
     }
 
     @Override
@@ -28,18 +25,18 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected void updateStorage(Resume r, Object index) {
-        storage.put((String) index, r);
+    protected void updateStorage(Resume r, Object uuid) {
+        storage.put((String) uuid, r);
     }
 
     @Override
-    protected void delFormStorage(Object index) {
-        storage.remove((String) index);
+    protected void delFormStorage(Object uuid) {
+        storage.remove((String) uuid);
     }
 
     @Override
-    protected Resume getFromStorage(Object index) {
-        return storage.get((String) index);
+    protected Resume getFromStorage(Object uuid) {
+        return storage.get((String) uuid);
     }
 
     @Override
