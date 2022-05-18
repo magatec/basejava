@@ -6,13 +6,18 @@ import java.util.*;
 
 public class MainCollections {
     private static final String UUID_0 = "uuid0";
-    private static final Resume RESUME_0 = new Resume(UUID_0);
+    private static final String FULLNAME_0 = "fullName0";
+
+    private static final Resume RESUME_0 = new Resume(UUID_0, FULLNAME_0);
     private static final String UUID_1 = "uuid1";
-    private static final Resume RESUME_1 = new Resume(UUID_1);
+    private static final String FULLNAME_1 = "fullName1";
+    private static final Resume RESUME_1 = new Resume(UUID_1, FULLNAME_1);
     private static final String UUID_2 = "uuid2";
-    private static final Resume RESUME_2 = new Resume(UUID_2);
+    private static final String FULLNAME_2 = "fullName2";
+    private static final Resume RESUME_2 = new Resume(UUID_2, FULLNAME_2);
     private static final String UUID_3 = "uuid3";
-    private static final Resume RESUME_3 = new Resume(UUID_3);
+    private static final String FULLNAME_3 = "fullName3";
+    private static final Resume RESUME_3 = new Resume(UUID_3, FULLNAME_3);
 
     public static void main(String[] args) {
         Collection<Resume> collection = new ArrayList<>();
@@ -40,12 +45,14 @@ public class MainCollections {
         map.put(UUID_2, RESUME_2);
         map.put(UUID_3, RESUME_3);
 
-        for(String uuid: map.keySet()){
+        for (String uuid : map.keySet()) {
             System.out.println(map.get(uuid));
         }
 
-        for(Map.Entry<String, Resume> entry: map.entrySet()){
+        for (Map.Entry<String, Resume> entry : map.entrySet()) {
             System.out.println(entry.getValue());
         }
+
+        System.out.println(map.get(UUID_1).getFullName());
     }
 }

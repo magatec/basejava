@@ -6,19 +6,30 @@ import com.urise.webapp.model.Resume;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ListStorageTest {
     public Storage storage = new ListStorage();
 
     private static final String UUID_0 = "uuid0";
-    private static final Resume RESUME_0 = new Resume(UUID_0);
+
+    private static final String FULLNAME_0 = "fullname0";
+    private static final Resume RESUME_0 = new Resume(UUID_0, FULLNAME_0);
     private static final String UUID_1 = "uuid1";
-    private static final Resume RESUME_1 = new Resume(UUID_1);
+
+    private static final String FULLNAME_1 = "fullname1";
+    private static final Resume RESUME_1 = new Resume(UUID_1, FULLNAME_1);
     private static final String UUID_2 = "uuid2";
-    private static final Resume RESUME_2 = new Resume(UUID_2);
+
+    private static final String FULLNAME_2 = "fullname2";
+    private static final Resume RESUME_2 = new Resume(UUID_2, FULLNAME_2);
     private static final String UUID_3 = "uuid3";
-    private static final Resume RESUME_3 = new Resume(UUID_3);
+
+    private static final String FULLNAME_3 = "fullname3";
+    private static final Resume RESUME_3 = new Resume(UUID_3, FULLNAME_3);
 
     @BeforeEach
     public void setUp() {
@@ -80,10 +91,10 @@ public class ListStorageTest {
     }
 
     @Test
-    void getAll() {
-        Resume[] actual = storage.getAll();
-        Resume[] expected = {RESUME_1, RESUME_2, RESUME_3};
-        assertArrayEquals(expected, actual);
+    void getAllSorted() {
+        List<Resume> actual = storage.getAllSorted();
+        List<Resume> expected = Arrays.asList(RESUME_1, RESUME_2, RESUME_3);
+        assertArrayEquals(expected.toArray(), actual.toArray());
     }
 
     @Test

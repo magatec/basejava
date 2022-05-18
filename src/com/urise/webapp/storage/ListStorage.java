@@ -2,7 +2,7 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class ListStorage extends AbstractStorage {
     private final ArrayList<Resume> storage = new ArrayList<>();
@@ -13,8 +13,9 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return storage.toArray(Resume[]::new);
+    public List<Resume> getAllSorted() {
+        storage.sort(fullNameComparator);
+        return storage;
     }
 
     @Override
@@ -48,7 +49,8 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected void delFormStorage(Object index) {
-        storage.remove((Integer) index);
+        int i = (Integer) index;
+        storage.remove(i);
     }
 
     @Override

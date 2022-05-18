@@ -4,7 +4,10 @@ import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
+import java.util.Comparator;
+
 public abstract class AbstractStorage implements Storage {
+
     protected abstract Object findIndex(String uuid);
 
     protected abstract void saveToStorage(Resume r);
@@ -16,6 +19,9 @@ public abstract class AbstractStorage implements Storage {
     protected abstract Resume getFromStorage(Object searchKey);
 
     protected abstract boolean isExist(Object searchKey);
+
+    public Comparator<Resume> fullNameComparator = (o1, o2) -> o1.getFullName().equals(o2.getFullName()) ?
+            o1.getUuid().compareTo(o2.getUuid()) : o1.getFullName().compareTo(o2.getFullName());
 
     public void save(Resume r) {
         if (!findNotExistedIndex(r.getUuid())) {

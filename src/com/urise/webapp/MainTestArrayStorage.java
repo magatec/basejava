@@ -1,7 +1,6 @@
 package com.urise.webapp;
 
 import com.urise.webapp.model.Resume;
-import com.urise.webapp.storage.ArrayStorage;
 import com.urise.webapp.storage.ListStorage;
 import com.urise.webapp.storage.Storage;
 
@@ -12,9 +11,9 @@ public class MainTestArrayStorage {
     private static final Storage ARRAY_STORAGE = new ListStorage();
 
     public static void main(String[] args) {
-        final Resume r1 = new Resume();
-        final Resume r2 = new Resume();
-        final Resume r3 = new Resume();
+        final Resume r1 = new Resume("fullName_1");
+        final Resume r2 = new Resume("fullName_2");
+        final Resume r3 = new Resume("fullName_3");
 
         ARRAY_STORAGE.save(r1);
         ARRAY_STORAGE.save(r2);
@@ -36,7 +35,7 @@ public class MainTestArrayStorage {
 
     static void printAll() {
         System.out.println("\nGet All");
-        for (Resume r : ARRAY_STORAGE.getAll()) {
+        for (Resume r : ARRAY_STORAGE.getAllSorted()) {
             System.out.println(r);
         }
     }
