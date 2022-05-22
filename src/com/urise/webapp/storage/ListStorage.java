@@ -47,8 +47,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected void delFormStorage(Object index) {
-        int i = (Integer) index;
-        storage.remove(i);
+        storage.remove((int) index);
     }
 
     @Override

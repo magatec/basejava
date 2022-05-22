@@ -25,27 +25,27 @@ public abstract class AbstractStorage implements Storage {
 
 
     public void save(Resume r) {
-        if (!findNotExistedIndex(r.getUuid())) {
+        if (!findNotExistedSearchKey(r.getUuid())) {
             saveToStorage(r);
         }
     }
 
     public void update(Resume r) {
-        Object searchKey = findExistedIndex(r.getUuid());
+        Object searchKey = findExistedSearchKey(r.getUuid());
         updateStorage(r, searchKey);
     }
 
     public void delete(String uuid) {
-        Object searchKey = findExistedIndex(uuid);
+        Object searchKey = findExistedSearchKey(uuid);
         delFormStorage(searchKey);
     }
 
     public Resume get(String uuid) {
-        Object searchKey = findExistedIndex(uuid);
+        Object searchKey = findExistedSearchKey(uuid);
         return getFromStorage(searchKey);
     }
 
-    public boolean findNotExistedIndex(String uuid) {
+    private boolean findNotExistedSearchKey(String uuid) {
         Object searchKey = findIndex(uuid);
         if (isExist(searchKey)) {
             throw new ExistStorageException(uuid);
@@ -53,7 +53,7 @@ public abstract class AbstractStorage implements Storage {
         return false;
     }
 
-    public Object findExistedIndex(String uuid) {
+    public Object findExistedSearchKey(String uuid) {
         Object searchKey = findIndex(uuid);
         if (!isExist(searchKey)) {
             throw new NotExistStorageException(uuid);
@@ -65,6 +65,7 @@ public abstract class AbstractStorage implements Storage {
         List<Resume> list = getListToAllSorted();
         Comparator<Resume> fullNameComparator = (o1, o2) -> o1.getFullName().equals(o2.getFullName()) ?
                 o1.getUuid().compareTo(o2.getUuid()) : o1.getFullName().compareTo(o2.getFullName());
+
         list.sort(fullNameComparator);
         return list;
     }

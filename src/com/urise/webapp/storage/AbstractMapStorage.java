@@ -12,6 +12,9 @@ public abstract class AbstractMapStorage extends AbstractStorage {
     protected abstract Resume getFromStorage(Object key);
 
     @Override
+    protected abstract void delFormStorage(Object key);
+
+    @Override
     protected boolean isExist(Object key) {
         return key != null;
     }
@@ -19,16 +22,6 @@ public abstract class AbstractMapStorage extends AbstractStorage {
     @Override
     protected void saveToStorage(Resume r) {
         storage.put(r.getUuid(), r);
-    }
-
-    @Override
-    protected void updateStorage(Resume r, Object uuid) {
-        storage.put((String) uuid, r);
-    }
-
-    @Override
-    protected void delFormStorage(Object uuid) {
-        storage.remove((String) uuid);
     }
 
     @Override

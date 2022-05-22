@@ -13,4 +13,12 @@ public class MapUuidStorage extends AbstractMapStorage {
         return storage.get((String) uuid);
     }
 
+    protected void delFormStorage(Object key) {
+        storage.remove((String) key);
+    }
+
+    @Override
+    protected void updateStorage(Resume r, Object uuid) {
+        storage.put((String) uuid, r);
+    }
 }
