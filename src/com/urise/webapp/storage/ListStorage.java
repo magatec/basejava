@@ -12,9 +12,7 @@ public class ListStorage extends AbstractStorage {
         storage.clear();
     }
 
-    @Override
-    public List<Resume> getAllSorted() {
-        storage.sort(fullNameComparator);
+    public List<Resume> getListToAllSorted() {
         return storage;
     }
 

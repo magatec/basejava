@@ -31,6 +31,7 @@ public abstract class AbstractStorageTest {
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;
     }
+
     @BeforeEach
     public void setUp() {
         storage.clear();
@@ -89,7 +90,7 @@ public abstract class AbstractStorageTest {
     void getAllSorted() {
         List<Resume> actual = storage.getAllSorted();
         List<Resume> expected = Arrays.asList(RESUME_1, RESUME_2, RESUME_3);
-        assertArrayEquals(expected.toArray(), actual.toArray());
+        assertEquals(actual, expected);
     }
 
     @Test
