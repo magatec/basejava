@@ -6,56 +6,64 @@ import com.urise.webapp.model.Resume;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Logger;
 
-public abstract class AbstractStorage implements Storage {
+public abstract class AbstractStorage<SK> implements Storage {
 
-    protected abstract Object findIndex(String uuid);
+    private static final Logger LOG = Logger.getLogger(AbstractStorage.class.getName());
+    protected abstract SK findIndex(String uuid);
 
     protected abstract void saveToStorage(Resume r);
 
-    protected abstract void updateStorage(Resume r, Object searchKey);
+    protected abstract void updateStorage(Resume r, SK searchKey);
 
-    protected abstract void delFormStorage(Object searchKey);
+    protected abstract void delFormStorage(SK searchKey);
 
-    protected abstract Resume getFromStorage(Object searchKey);
+    protected abstract Resume getFromStorage(SK searchKey);
 
-    protected abstract boolean isExist(Object searchKey);
+    protected abstract boolean isExist(SK searchKey);
 
     protected abstract List<Resume> getListToAllSorted();
 
 
     public void save(Resume r) {
+        LOG.info("Save " + r);
         if (!findNotExistedSearchKey(r.getUuid())) {
             saveToStorage(r);
         }
     }
 
     public void update(Resume r) {
-        Object searchKey = findExistedSearchKey(r.getUuid());
+        LOG.info("Update " + r);
+        SK searchKey = findExistedSearchKey(r.getUuid());
         updateStorage(r, searchKey);
     }
 
     public void delete(String uuid) {
-        Object searchKey = findExistedSearchKey(uuid);
+        LOG.info("Delete " + uuid);
+        SK searchKey = findExistedSearchKey(uuid);
         delFormStorage(searchKey);
     }
 
     public Resume get(String uuid) {
-        Object searchKey = findExistedSearchKey(uuid);
+        LOG.info("Get " + uuid);
+        SK searchKey = findExistedSearchKey(uuid);
         return getFromStorage(searchKey);
     }
 
     private boolean findNotExistedSearchKey(String uuid) {
-        Object searchKey = findIndex(uuid);
+        SK searchKey = findIndex(uuid);
         if (isExist(searchKey)) {
+            LOG.warning("Resume " + uuid + " not exist");
             throw new ExistStorageException(uuid);
         }
         return false;
     }
 
-    public Object findExistedSearchKey(String uuid) {
-        Object searchKey = findIndex(uuid);
+    public SK findExistedSearchKey(String uuid) {
+        SK searchKey = findIndex(uuid);
         if (!isExist(searchKey)) {
+            LOG.warning("Resume " + uuid + " already exist");
             throw new NotExistStorageException(uuid);
         }
         return searchKey;

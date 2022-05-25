@@ -2,25 +2,53 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
-public class MapResumeStorage extends AbstractMapStorage {
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class MapResumeStorage extends AbstractStorage<Resume> {
+
+    protected final Map<String, Resume> storage = new HashMap<>();
 
     @Override
-    protected Object findIndex(String uuid) {
+    protected boolean isExist(Resume key) {
+        return key != null;
+    }
+
+    @Override
+    protected void saveToStorage(Resume r) {
+        storage.put(r.getUuid(), r);
+    }
+
+    @Override
+    public void clear() {
+        storage.clear();
+    }
+
+    public List<Resume> getListToAllSorted() {
+        return Arrays.asList(storage.values().toArray(Resume[]::new));
+    }
+
+    @Override
+    public int size() {
+        return storage.size();
+    }
+
+    @Override
+    protected Resume findIndex(String uuid) {
         return storage.get(uuid);
     }
 
-    protected Resume getFromStorage(Object resume) {
-        return (Resume) resume;
+    protected Resume getFromStorage(Resume resume) {
+        return resume;
     }
 
-    protected void delFormStorage(Object key) {
-        Resume r = (Resume) key;
-        storage.remove(r.getUuid());
+    protected void delFormStorage(Resume key) {
+        storage.remove(key.getUuid());
     }
 
-    @Override
-    protected void updateStorage(Resume r, Object key) {
-        Resume res = (Resume) key;
-        storage.put(res.getUuid(), r);
+    protected void updateStorage(Resume r, Resume key) {
+        storage.put(key.getUuid(), r);
     }
 }
