@@ -1,5 +1,6 @@
 package com.urise.webapp.model;
 
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -11,19 +12,21 @@ public class Resume {
     private final String uuid;
     private final String fullName;
 
-    public Map<String, String> contacts;
+    protected EnumMap<ContactSection, ContactString> contacts;
 
-    public String personal;
+    protected EnumMap<SectionType, AbstractSection> section;
 
-    public String objective;
-
-    public List<String> achievement;
-
-    public List<String> qualifications;
-
-    public Map<String, Map<String, String>> experience;
-
-    public Map<String, Map<String, String>> education;
+//    public String personal;
+//
+//    public String objective;
+//
+//    public List<String> achievement;
+//
+//    public List<String> qualifications;
+//
+//    public Map<String, Map<String, String>> experience;
+//
+//    public Map<String, Map<String, String>> education;
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
@@ -34,6 +37,19 @@ public class Resume {
         this.fullName = fullName;
     }
 
+    public Resume(String uuid, String fullName, EnumMap<ContactSection, ContactString> contacts) {
+        this.uuid = uuid;
+        this.fullName = fullName;
+        this.contacts = contacts;
+    }
+
+    public Resume(String uuid, String fullName, EnumMap<ContactSection, ContactString> contacts, EnumMap<SectionType, AbstractSection> section) {
+        this.uuid = uuid;
+        this.fullName = fullName;
+        this.contacts = contacts;
+        this.section = section;
+    }
+
     public String getUuid() {
         return uuid;
     }
@@ -42,6 +58,13 @@ public class Resume {
         return fullName;
     }
 
+    public EnumMap<ContactSection, ContactString> getContacts() {
+        return contacts;
+    }
+
+    public EnumMap<SectionType, AbstractSection> getSection() {
+        return section;
+    }
 //    public Map<String, String> getContacts() {return contacts;};
 
     @Override
