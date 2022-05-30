@@ -30,7 +30,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     }
 
     public void delFormStorage(Integer index) {
-//        int i =  index;
         storage[index] = null;
         if (size - 1 - index >= 0) System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
         size--;

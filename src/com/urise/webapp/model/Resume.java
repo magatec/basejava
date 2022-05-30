@@ -1,6 +1,6 @@
 package com.urise.webapp.model;
 
-import java.util.List;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -11,19 +11,12 @@ public class Resume {
     private final String uuid;
     private final String fullName;
 
-    public Map<String, String> contacts;
+    private String contacts;
 
-    public String personal;
+    protected EnumMap<ContactType, String> contactsMap;
 
-    public String objective;
+    protected EnumMap<SectionType, AbstractSection> sections;
 
-    public List<String> achievement;
-
-    public List<String> qualifications;
-
-    public Map<String, Map<String, String>> experience;
-
-    public Map<String, Map<String, String>> education;
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
@@ -34,6 +27,19 @@ public class Resume {
         this.fullName = fullName;
     }
 
+    public Resume(String uuid, String fullName, EnumMap<ContactType, String> contactsMap) {
+        this.uuid = uuid;
+        this.fullName = fullName;
+        this.contactsMap = contactsMap;
+    }
+
+    public Resume(String uuid, String fullName, EnumMap<ContactType, String> contactsMap, EnumMap<SectionType, AbstractSection> sections) {
+        this.uuid = uuid;
+        this.fullName = fullName;
+        this.contactsMap = contactsMap;
+        this.sections = sections;
+    }
+
     public String getUuid() {
         return uuid;
     }
@@ -42,7 +48,13 @@ public class Resume {
         return fullName;
     }
 
-//    public Map<String, String> getContacts() {return contacts;};
+    public Map<ContactType, String> getContacts() {
+        return contactsMap;
+    }
+
+    public Map<SectionType, AbstractSection> getSections() {
+        return sections;
+    }
 
     @Override
     public boolean equals(Object o) {
