@@ -13,9 +13,9 @@ public class Resume {
 
     private String contacts;
 
-    protected EnumMap<ContactType, String> contactsMap;
+    protected EnumMap<ContactType, String> contactsMap = new EnumMap<>(ContactType.class);
 
-    protected EnumMap<SectionType, AbstractSection> sections;
+    protected EnumMap<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
 
 
     public Resume(String fullName) {

@@ -15,7 +15,7 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
     @Test
     void saveOverSizeStorageException() {
         try {
-            for (int i = 4; i <= 10000; i++) {
+            for (int i = 5; i <= 10000; i++) {
                 storage.save(new Resume("uuid" + i));
             }
         } catch (StorageException e) {

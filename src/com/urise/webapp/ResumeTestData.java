@@ -4,12 +4,14 @@ import com.urise.webapp.model.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
 
 public class ResumeTestData {
     public static Resume doTest(String uuid, String fullName) {
         Resume resume = new Resume(uuid, fullName);
 
+//        EnumMap<ContactType, String> contacts = new EnumMap<>(ContactType.class);
         resume.setContacts(ContactType.TELEPHONE, "111");
         resume.setContacts(ContactType.HOMEPAGE, "url_1");
         resume.setContacts(ContactType.MAIL, "mail_1@mail");
