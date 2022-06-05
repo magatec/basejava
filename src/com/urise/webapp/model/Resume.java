@@ -52,10 +52,17 @@ public class Resume {
         return contactsMap;
     }
 
+    public void setContacts(ContactType type, String contact) {
+        contactsMap.put(type, contact);
+    }
+
     public Map<SectionType, AbstractSection> getSections() {
         return sections;
     }
 
+    public void setSections(SectionType type, AbstractSection section) {
+        sections.put(type, section);
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
