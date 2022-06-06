@@ -63,6 +63,7 @@ public class Resume {
     public void setSections(SectionType type, AbstractSection section) {
         sections.put(type, section);
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
