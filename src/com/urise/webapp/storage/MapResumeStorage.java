@@ -36,7 +36,7 @@ public class MapResumeStorage extends AbstractStorage<Resume> {
     }
 
     @Override
-    protected Resume findIndex(String uuid) {
+    protected Resume findSearchKey(String uuid) {
         return storage.get(uuid);
     }
 
@@ -44,7 +44,7 @@ public class MapResumeStorage extends AbstractStorage<Resume> {
         return resume;
     }
 
-    protected void delFormStorage(Resume key) {
+    protected void deleteFormStorage(Resume key) {
         storage.remove(key.getUuid());
     }
 

@@ -36,7 +36,7 @@ public class MapUuidStorage extends AbstractStorage<String> {
     }
 
     @Override
-    protected String findIndex(String uuid) {
+    protected String findSearchKey(String uuid) {
         return storage.containsKey(uuid) ? uuid : null;
     }
 
@@ -44,7 +44,7 @@ public class MapUuidStorage extends AbstractStorage<String> {
         return storage.get(uuid);
     }
 
-    protected void delFormStorage(String key) {
+    protected void deleteFormStorage(String key) {
         storage.remove(key);
     }
 

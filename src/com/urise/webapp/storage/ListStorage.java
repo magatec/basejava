@@ -22,7 +22,7 @@ public class ListStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    protected Integer findIndex(String uuid) {
+    protected Integer findSearchKey(String uuid) {
         for (int i = 0; i < storage.size(); i++) {
             if (uuid.equals(storage.get(i).getUuid())) {
                 return i;
@@ -46,7 +46,7 @@ public class ListStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    protected void delFormStorage(Integer index) {
+    protected void deleteFormStorage(Integer index) {
         storage.remove((int) index);
     }
 

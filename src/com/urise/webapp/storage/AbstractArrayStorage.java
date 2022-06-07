@@ -29,7 +29,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
         storage[index] = r;
     }
 
-    public void delFormStorage(Integer index) {
+    public void deleteFormStorage(Integer index) {
         storage[index] = null;
         if (size - 1 - index >= 0) System.arraycopy(storage, index + 1, storage, index, size - 1 - index);
         size--;

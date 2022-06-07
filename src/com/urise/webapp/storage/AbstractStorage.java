@@ -11,13 +11,13 @@ import java.util.logging.Logger;
 public abstract class AbstractStorage<SK> implements Storage {
 
     private static final Logger LOG = Logger.getLogger(AbstractStorage.class.getName());
-    protected abstract SK findIndex(String uuid);
+    protected abstract SK findSearchKey(String uuid);
 
     protected abstract void saveToStorage(Resume r);
 
     protected abstract void updateStorage(Resume r, SK searchKey);
 
-    protected abstract void delFormStorage(SK searchKey);
+    protected abstract void deleteFormStorage(SK searchKey);
 
     protected abstract Resume getFromStorage(SK searchKey);
 
@@ -42,7 +42,7 @@ public abstract class AbstractStorage<SK> implements Storage {
     public void delete(String uuid) {
         LOG.info("Delete " + uuid);
         SK searchKey = findExistedSearchKey(uuid);
-        delFormStorage(searchKey);
+        deleteFormStorage(searchKey);
     }
 
     public Resume get(String uuid) {
@@ -52,7 +52,7 @@ public abstract class AbstractStorage<SK> implements Storage {
     }
 
     private boolean findNotExistedSearchKey(String uuid) {
-        SK searchKey = findIndex(uuid);
+        SK searchKey = findSearchKey(uuid);
         if (isExist(searchKey)) {
             LOG.warning("Resume " + uuid + " not exist");
             throw new ExistStorageException(uuid);
@@ -61,7 +61,7 @@ public abstract class AbstractStorage<SK> implements Storage {
     }
 
     public SK findExistedSearchKey(String uuid) {
-        SK searchKey = findIndex(uuid);
+        SK searchKey = findSearchKey(uuid);
         if (!isExist(searchKey)) {
             LOG.warning("Resume " + uuid + " already exist");
             throw new NotExistStorageException(uuid);

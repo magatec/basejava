@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Objects;
 
 public abstract class AbstractFileStorage extends AbstractStorage<File> {
-    private File directory;
+    private final File directory;
 
     protected abstract void doWrite(Resume r, File file) throws IOException;
 
@@ -29,7 +29,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected File findIndex(String uuid) {
+    protected File findSearchKey(String uuid) {
         return new File(directory, uuid);
     }
 
@@ -43,7 +43,10 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     }
 
     @Override
-    protected void delFormStorage(File file) {
+    protected void deleteFormStorage(File file) {
+        if (!file.exists()) {
+            throw new StorageException("file does not exist", file.getName());
+        }
         file.delete();
     }
 
@@ -64,14 +67,14 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     public void clear() {
-        File[] files = directory.listFiles();
+        File[] files =  Objects.requireNonNull(directory.listFiles(), "there are no files in the directory");
         for (File file : files) {
             file.delete();
         }
     }
 
     public void saveToStorage(Resume r) {
-        File file = null;
+        File file = findSearchKey(r.getUuid());
         try {
             file.createNewFile();
             doWrite(r, file);
@@ -82,7 +85,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     public List<Resume> getListToAllSorted() {
         List<Resume> resumes = new ArrayList<>();
-        for (String name : directory.list()) {
+        for (String name : Objects.requireNonNull(directory.list(), "there are no files in the directory")) {
             resumes.add(doRead(new File(name)));
         }
         return resumes;
