@@ -3,9 +3,6 @@ package com.urise.webapp;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainFile {
     public static void recurciv(String pathName) {
@@ -15,7 +12,7 @@ public class MainFile {
             for (String s : list) {
                 File file1 = new File(pathName + "/" + s);
                 if (file1.isFile()) {
-                    System.out.println(s);
+                    System.out.println("  " + s);
                 } else {
                     System.out.println(s);
                     recurciv(pathName + "/" + s);
