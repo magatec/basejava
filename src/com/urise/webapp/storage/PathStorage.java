@@ -2,6 +2,7 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
+import com.urise.webapp.storage.strategy.SaveStorageStrategy;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -10,10 +11,11 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PathStorage extends AbstractStorage<Path> {
-    private Path directory;
-    private SaveStorageStrategy saveStorageStrategy;
+    private final Path directory;
+    private final SaveStorageStrategy saveStorageStrategy;
 
     protected PathStorage(String dir, SaveStorageStrategy saveStorageStrategy) {
         this.saveStorageStrategy = saveStorageStrategy;
@@ -22,12 +24,11 @@ public class PathStorage extends AbstractStorage<Path> {
         if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
             throw new IllegalArgumentException(dir + " is not directory or is not writable");
         }
-
     }
 
     @Override
     protected Path findSearchKey(String uuid) {
-        return Paths.get(String.valueOf(directory), uuid);
+        return directory.resolve(uuid);
     }
 
     @Override
@@ -35,7 +36,7 @@ public class PathStorage extends AbstractStorage<Path> {
         try {
             saveStorageStrategy.doWrite(r, Files.newOutputStream(path));
         } catch (IOException e) {
-            throw new StorageException("IO error", path.toString(), e);
+            throw new StorageException("Error update path", path.toString(), e);
         }
     }
 
@@ -64,42 +65,35 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     public int size() {
-        try {
-            return Objects.requireNonNull(Files.list(directory)).toArray().length;
-        } catch (IOException e) {
-            throw new StorageException("Error get size", directory.toString(), e);
-        }
+        return getPathList().toArray().length;
     }
 
     @Override
     public void clear() {
-        try {
-            Files.list(directory).forEach(this::deleteFormStorage);
-        } catch (IOException e) {
-            throw new StorageException("Path delete error", null);
-        }
+        getPathList().forEach(this::deleteFormStorage);
     }
 
-    public void saveToStorage(Resume r) {
-        Path path = findSearchKey(r.getUuid());
+    public void saveToStorage(Resume r, Path path) {
         try {
             Files.createFile(path);
-            saveStorageStrategy.doWrite(r, Files.newOutputStream(path));
         } catch (IOException e) {
-            throw new StorageException("IO error", path.toString(), e);
+            throw new StorageException("Error write path", path.toString(), e);
         }
+        updateStorage(r, path);
     }
 
     public List<Resume> getListToAllSorted() {
-//        List<Resume> resumes = new ArrayList<>();
+        return getPathList()
+                .map(this::getFromStorage)
+                .collect(Collectors.toList());
+    }
+
+    private Stream<Path> getPathList() {
         try {
-            return Files.list(directory)
-                    .map(this::getFromStorage)
-                    .collect(Collectors.toList());
+            return Files.list(directory);
         } catch (IOException e) {
-            throw new StorageException("Error path read", null, e);
+            throw new StorageException("Error read path", directory.toString(), e);
         }
-//            return resumes;
     }
 }
 

@@ -2,6 +2,7 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
+import com.urise.webapp.storage.strategy.SaveStorageStrategy;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.Objects;
 
 public class FileStorage extends AbstractStorage<File> {
     private final File directory;
-    private SaveStorageStrategy saveStorageStrategy;
+    private final SaveStorageStrategy saveStorageStrategy;
 
     protected FileStorage(File directory, SaveStorageStrategy saveStorageStrategy) {
         this.saveStorageStrategy = saveStorageStrategy;
@@ -22,7 +23,6 @@ public class FileStorage extends AbstractStorage<File> {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not readable/writable");
         }
         this.directory = directory;
-
     }
 
     @Override
@@ -35,14 +35,14 @@ public class FileStorage extends AbstractStorage<File> {
         try {
             saveStorageStrategy.doWrite(r, new FileOutputStream(file));
         } catch (IOException e) {
-            throw new StorageException("IO error", file.getName(), e);
+            throw new StorageException("Error write file", file.getName(), e);
         }
     }
 
     @Override
     protected void deleteFormStorage(File file) {
-        if (!file.exists() || !file.delete()) {
-            throw new StorageException("IO error", file.getName());
+        if (!file.delete()) {
+            throw new StorageException("Error delete file", file.getName());
         }
     }
 
@@ -51,7 +51,7 @@ public class FileStorage extends AbstractStorage<File> {
         try {
             return saveStorageStrategy.doRead(new BufferedInputStream(new FileInputStream(file)));
         } catch (IOException e) {
-            throw new StorageException("File read error", file.getName(), e);
+            throw new StorageException("Error read file", file.getName(), e);
         }
     }
 
@@ -62,36 +62,41 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     public int size() {
-        return Objects.requireNonNull(directory.list()).length;
+        return getFileList().length;
     }
 
     @Override
     public void clear() {
-        File[] files = Objects.requireNonNull(directory.listFiles(), "there are no files in the directory");
-        for (File file : files) {
+        for (File file : getFileList()) {
             deleteFormStorage(file);
         }
     }
 
-    public void saveToStorage(Resume r) {
-        File file = findSearchKey(r.getUuid());
+    public void saveToStorage(Resume r, File file) {
         try {
             file.createNewFile();
-            saveStorageStrategy.doWrite(r, new FileOutputStream(file));
         } catch (IOException e) {
-            throw new StorageException("IO error", file.getName(), e);
+            throw new StorageException("Error save file", file.getName(), e);
         }
+        updateStorage(r, file);
     }
 
     public List<Resume> getListToAllSorted() {
         List<Resume> resumes = new ArrayList<>();
-        for (String name : Objects.requireNonNull(directory.list(), "there are no files in the directory")) {
+        for (File file : getFileList()) {
             try {
-                resumes.add(saveStorageStrategy.doRead(new BufferedInputStream(new FileInputStream(directory + "/" + name))));
+                resumes.add(saveStorageStrategy.doRead(new BufferedInputStream(new FileInputStream(directory + "/" + file.getName()))));
             } catch (IOException e) {
-                throw new StorageException("File read error", name, e);
+                throw new StorageException("Error read file", file.getName(), e);
             }
         }
         return resumes;
+    }
+
+    private File[] getFileList() {
+        if (directory.exists()) {
+            return directory.listFiles();
+        }
+        throw new StorageException("Error read file", directory.toString());
     }
 }

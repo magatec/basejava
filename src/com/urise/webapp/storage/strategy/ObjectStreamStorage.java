@@ -1,10 +1,10 @@
-package com.urise.webapp.storage;
+package com.urise.webapp.storage.strategy;
 
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
+import com.urise.webapp.storage.strategy.SaveStorageStrategy;
 
 import java.io.*;
-import java.net.SocketException;
 
 public class ObjectStreamStorage implements SaveStorageStrategy {
 

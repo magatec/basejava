@@ -15,7 +15,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
         size = 0;
     }
 
-    public void saveToStorage(Resume r) {
+    public void saveToStorage(Resume r, Integer index) {
         if (size == STORAGE_LIMIT) {
             throw new StorageException("Хранилище переполнено.", r.getUuid());
         }
