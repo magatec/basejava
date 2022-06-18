@@ -84,11 +84,7 @@ public class FileStorage extends AbstractStorage<File> {
     public List<Resume> getListToAllSorted() {
         List<Resume> resumes = new ArrayList<>();
         for (File file : getFileList()) {
-            try {
-                resumes.add(saveStorageStrategy.doRead(new BufferedInputStream(new FileInputStream(directory + "/" + file.getName()))));
-            } catch (IOException e) {
-                throw new StorageException("Error read file", file.getName(), e);
-            }
+            resumes.add(getFromStorage(file));
         }
         return resumes;
     }
