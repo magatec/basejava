@@ -2,7 +2,7 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
-import com.urise.webapp.storage.strategy.SaveStorageStrategy;
+import com.urise.webapp.storage.serializer.SaveStorageStrategy;
 
 import java.io.*;
 import java.util.ArrayList;

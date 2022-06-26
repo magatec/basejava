@@ -1,10 +1,13 @@
 package com.urise.webapp.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Organization extends OrganizationSection implements Serializable {
     private static final long serialVersionUID = 1L;
     private final String title;
@@ -48,7 +51,9 @@ public class Organization extends OrganizationSection implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Organization that = (Organization) o;
-        return title.equals(that.title) && url.equals(that.url) && periods.equals(that.periods);
+        return Objects.equals(title, that.title) &&
+                Objects.equals(url, that.url) &&
+                Objects.equals(periods, that.periods);
     }
 
     @Override
