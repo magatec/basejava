@@ -10,27 +10,27 @@ import java.util.Objects;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Organization extends OrganizationSection implements Serializable {
     private static final long serialVersionUID = 1L;
-    private final String title;
+    private final String name;
     private String url;
     private final List<Period> periods;
 
     public Organization() {
-        title = "";
+        name = "";
         periods = new ArrayList<>();
     }
 
-    public Organization(String title, List<Period> periods) {
-        this.title = Objects.requireNonNull(title, "Title must not be null");
+    public Organization(String name, List<Period> periods) {
+        this.name = Objects.requireNonNull(name, "Name must not be null");
         this.periods = Objects.requireNonNull(periods, "Periods must not be null");
     }
 
-    public Organization(String title, String url, List<Period> periods) {
-        this(title, periods);
-        this.url = url;
+    public Organization(String name, String url, List<Period> periods) {
+        this(name, periods);
+        this.url = url == null ? "" : url;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
     public String getUrl() {
@@ -42,7 +42,7 @@ public class Organization extends OrganizationSection implements Serializable {
     }
 
     public String getContent() {
-        return title + " : " + url;
+        return name + " : " + url;
     }
 
     @Override
@@ -51,13 +51,13 @@ public class Organization extends OrganizationSection implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Organization that = (Organization) o;
-        return Objects.equals(title, that.title) &&
+        return Objects.equals(name, that.name) &&
                 Objects.equals(url, that.url) &&
                 Objects.equals(periods, that.periods);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), title, url, periods);
+        return Objects.hash(super.hashCode(), name, url, periods);
     }
 }

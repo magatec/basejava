@@ -67,7 +67,7 @@ public class DataStreamSerializer implements SaveStorageStrategy {
                             writeCollection(dos, ((ListSection) section).getItems(), dos::writeUTF);
                     case EXPERIENCE, EDUCATION ->
                             writeCollection(dos, ((OrganizationSection) section).getList(), organization -> {
-                                dos.writeUTF(organization.getTitle());
+                                dos.writeUTF(organization.getName());
                                 dos.writeUTF(organization.getUrl());
                                 writeCollection(dos, organization.getPeriods(), period -> {
                                     writeLocalDate(dos, period.getStart());

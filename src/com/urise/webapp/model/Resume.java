@@ -23,9 +23,9 @@ public class Resume implements Serializable {
 
     private String contacts;
 
-    protected EnumMap<ContactType, String> contactsMap = new EnumMap<>(ContactType.class);
+    protected Map<ContactType, String> contactsMap = new EnumMap<>(ContactType.class);
 
-    protected EnumMap<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
+    protected Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
 
     public Resume() {
     }
@@ -82,7 +82,7 @@ public class Resume implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Resume resume = (Resume) o;
         return Objects.equals(uuid, resume.uuid) &&
-                Objects.equals(fullName,resume.fullName) &&
+                Objects.equals(fullName, resume.fullName) &&
                 Objects.equals(contacts, resume.contacts) &&
                 Objects.equals(sections, resume.sections);
     }

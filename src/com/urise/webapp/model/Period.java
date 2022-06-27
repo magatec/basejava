@@ -11,7 +11,7 @@ import java.util.Objects;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Period extends Organization {
-//    private static final long serialVersionUID = 1L;
+    //    private static final long serialVersionUID = 1L;
     @XmlJavaTypeAdapter(LocalDateAdapter.class)
     private LocalDate start;
     @XmlJavaTypeAdapter(LocalDateAdapter.class)
@@ -26,7 +26,7 @@ public class Period extends Organization {
         this.start = Objects.requireNonNull(start, "Start date must not be null");
         this.end = Objects.requireNonNull(end, "End date must not be null");
         this.title = Objects.requireNonNull(title, "Title must not be null");
-        this.description = description;
+        this.description = description == null ? "" : description;
     }
 
     public LocalDate getStart() {
@@ -47,5 +47,19 @@ public class Period extends Organization {
 
     public String getContent() {
         return this.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Period period = (Period) o;
+        return start.equals(period.start) && end.equals(period.end) && Objects.equals(title, period.title) && Objects.equals(description, period.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), start, end, title, description);
     }
 }
