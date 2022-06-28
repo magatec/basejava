@@ -11,7 +11,6 @@ public class ResumeTestData {
     public static Resume doTest(String uuid, String fullName) {
         Resume resume = new Resume(uuid, fullName);
 
-//        EnumMap<ContactType, String> contacts = new EnumMap<>(ContactType.class);
         resume.setContacts(ContactType.TELEPHONE, "111");
         resume.setContacts(ContactType.HOMEPAGE, "url_1");
         resume.setContacts(ContactType.MAIL, "mail_1@mail");
@@ -36,7 +35,7 @@ public class ResumeTestData {
         resume.setSections(SectionType.QUALIFICATIONS, new ListSection(qualificationList));
 
         List<Organization> organizationList = new ArrayList<>();
-        Period period = new Period(LocalDate.of(2017, 3, 1), LocalDate.now(), "Org_last", "descriptionOrg_last");
+        Period period = new Period(LocalDate.of(2017, 3, 1), LocalDate.of(2022, 2, 1), "Org_last", "descriptionOrg_last");
         Organization org_Last = new Organization("Org_Last", "www.orgLast.com", List.of(period));
         Period period1 = new Period(LocalDate.of(2010, 2, 1), LocalDate.of(2016, 12, 1), "Org_start", "descriptionOrg_start");
         Organization org_Start = new Organization("Org_Start", "www.orgstart.com", List.of(period1));

@@ -2,15 +2,16 @@ package com.urise.webapp.model;
 
 import java.util.Objects;
 
-public class TextSection extends AbstractSection {
 
+public class TextSection extends AbstractSection {
+    private static final long serialVersionUID = 1L;
     private String content;
 
     public TextSection() {
     }
 
     public TextSection(String content) {
-        this.content = content;
+        this.content = content == null ? "" : content;
     }
 
     public String getContent() {

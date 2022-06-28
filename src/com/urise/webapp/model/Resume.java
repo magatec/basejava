@@ -1,7 +1,6 @@
 package com.urise.webapp.model;
 
 import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorOrder;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
@@ -21,7 +20,7 @@ public class Resume implements Serializable {
     private String uuid;
     private String fullName;
 
-    private String contacts;
+//    private String contacts;
 
     protected Map<ContactType, String> contactsMap = new EnumMap<>(ContactType.class);
 
@@ -83,13 +82,13 @@ public class Resume implements Serializable {
         Resume resume = (Resume) o;
         return Objects.equals(uuid, resume.uuid) &&
                 Objects.equals(fullName, resume.fullName) &&
-                Objects.equals(contacts, resume.contacts) &&
+                Objects.equals(contactsMap, resume.contactsMap) &&
                 Objects.equals(sections, resume.sections);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid, fullName, contacts, sections);
+        return Objects.hash(uuid, fullName, contactsMap, sections);
     }
 
     @Override

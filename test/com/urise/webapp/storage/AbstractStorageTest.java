@@ -3,6 +3,7 @@ package com.urise.webapp.storage;
 import com.urise.webapp.ResumeTestData;
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
+import com.urise.webapp.model.ContactType;
 import com.urise.webapp.model.Resume;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -98,7 +99,12 @@ public abstract class AbstractStorageTest {
     @Test
     void getAllSorted() {
         List<Resume> actual = storage.getAllSorted();
-        List<Resume> expected = Arrays.asList(RESUME_1, RESUME_2, RESUME_3, RESUME_4);
+//        List<Resume> expected = Arrays.asList(RESUME_1, RESUME_2, RESUME_3, RESUME_4);
+        List<Resume> expected = new ArrayList<>();
+        expected.add(RESUME_1);
+        expected.add(RESUME_2);
+        expected.add(RESUME_3);
+        expected.add(RESUME_4);
         assertEquals(actual, expected);
     }
 
