@@ -15,15 +15,11 @@ public class MainDeadlock {
         @Override
         public void run() {
             synchronized (LOCK_1) {
-                System.out.println(getStr("?"));
-
-                try {
-                    Thread.sleep(1_000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+                System.out.println(getStr("? Thread_1 lock Object LOCK_1."));
+                sleepThread();
+                System.out.println("Welcome to deadlock");
                 synchronized (LOCK_2) {
-                    System.out.println(getStr("!"));
+                    System.out.println(getStr("! Thread_1 ждет когда Thread_2 освободит Object LOCK_2."));
                 }
             }
         }
@@ -33,19 +29,21 @@ public class MainDeadlock {
         @Override
         public void run() {
             synchronized (LOCK_2) {
-                System.out.println(getStr("!!!"));
-                try {
-                    Thread.sleep(1_000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+                System.out.println(getStr("!!! Thread_2 lock Object LOCK_2."));
+                sleepThread();
+
+                synchronized (LOCK_1) {
+                    System.out.println(getStr("??? Thread_2 ждет когда Thread_1 освободит Object LOCK_1."));
                 }
-
-              synchronized (LOCK_1) {
-                  System.out.println(getStr("???"));
-              }
             }
+        }
+    }
 
-
+    private static void sleepThread() {
+        try {
+            Thread.sleep(1_000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 
