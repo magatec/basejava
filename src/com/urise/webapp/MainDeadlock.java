@@ -11,45 +11,29 @@ public class MainDeadlock {
         return str + s;
     }
 
-    private static class Thread_1 extends Thread {
-        @Override
-        public void run() {
-            synchronized (LOCK_1) {
-                System.out.println(getStr("? Thread_1 lock Object LOCK_1."));
-                sleepThread();
-                System.out.println("Welcome to deadlock");
-                synchronized (LOCK_2) {
-                    System.out.println(getStr("! Thread_1 ждет когда Thread_2 освободит Object LOCK_2."));
+    private static Thread getThread(Object obj1, Object obj2, String s) {
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                synchronized (obj1) {
+                    System.out.println(getStr(s + " " + getName() + " lock Object " + obj1.toString()));
+                    try {
+                        Thread.sleep(1_000);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    synchronized (obj2) {
+                        System.out.println(getStr(s + " Поток пытаются обратиться к уже занятому объекту " + obj2.toString()));
+                    }
                 }
             }
-        }
-    }
-
-    private static class Thread_2 extends Thread {
-        @Override
-        public void run() {
-            synchronized (LOCK_2) {
-                System.out.println(getStr("!!! Thread_2 lock Object LOCK_2."));
-                sleepThread();
-
-                synchronized (LOCK_1) {
-                    System.out.println(getStr("??? Thread_2 ждет когда Thread_1 освободит Object LOCK_1."));
-                }
-            }
-        }
-    }
-
-    private static void sleepThread() {
-        try {
-            Thread.sleep(1_000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        };
+        return thread;
     }
 
     public static void main(String[] args) {
-        Thread_1 t1 = new Thread_1();
-        Thread_2 t2 = new Thread_2();
+        Thread t1 = getThread(LOCK_1, LOCK_2, "?");
+        Thread t2 = getThread(LOCK_2, LOCK_1, "!");
         t1.start();
         t2.start();
     }
