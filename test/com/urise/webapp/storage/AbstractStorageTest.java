@@ -1,5 +1,6 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.Config;
 import com.urise.webapp.ResumeTestData;
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
@@ -12,29 +13,30 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public abstract class AbstractStorageTest {
 
-    protected static final File STORAGE_DIR = new File("/home/magatec/BaseJava/basejava/src/storage");
+    protected static final File STORAGE_DIR = Config.get().getStorageDir();
     public Storage storage;
 
-    private static final String UUID_0 = "uuid0";
+    private static final String UUID_0 = UUID.randomUUID().toString();
     private static final String FULLNAME_0 = "fullName0";
     private static final Resume RESUME_0 = new Resume(UUID_0, FULLNAME_0);
-    private static final String UUID_1 = "uuid1";
+    private static final String UUID_1 = UUID.randomUUID().toString();
     private static final String FULLNAME_1 = "fullName1";
     private static final Resume RESUME_1 = new Resume(UUID_1, FULLNAME_1);
 
-    private static final String UUID_2 = "uuid2";
+    private static final String UUID_2 = UUID.randomUUID().toString();
     private static final String FULLNAME_2 = "fullName2";
     private static final Resume RESUME_2 = new Resume(UUID_2, FULLNAME_2);
-    private static final String UUID_3 = "uuid3";
+    private static final String UUID_3 = UUID.randomUUID().toString();
     private static final String FULLNAME_3 = "fullName3";
     private static final Resume RESUME_3 = new Resume(UUID_3, FULLNAME_3);
 
-    private static final Resume RESUME_4 = ResumeTestData.doTest("uuid4", "fullName4");
+    private static final Resume RESUME_4 = ResumeTestData.doTest(UUID.randomUUID().toString(), "fullName4");
 
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;
