@@ -14,8 +14,11 @@ import java.util.Map;
 public class SqlStorage implements Storage {
     public final SqlHelper sqlHelper;
 
-    public SqlStorage(String dbUrl, String dbUser, String dbPassword) {
-        sqlHelper = new SqlHelper(() -> DriverManager.getConnection(dbUrl, dbUser, dbPassword));
+    public SqlStorage(String dbUrl, String dbUser, String dbPassword, String dbDriver) {
+        sqlHelper = new SqlHelper(() -> {
+            Class.forName(dbDriver);
+            return DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+        });
     }
 
     @Override
@@ -117,7 +120,9 @@ public class SqlStorage implements Storage {
     private void addContact(ResultSet rs, Resume r) throws SQLException {
         String value = rs.getString("value");
         ContactType type = ContactType.valueOf(rs.getString("type"));
-        r.setContacts(type, value);
+        if (value != null) {
+            r.setContacts(type, value);
+        }
     }
 
     private void insertContacts(Connection conn, Resume r) throws SQLException {

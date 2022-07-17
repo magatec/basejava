@@ -21,9 +21,12 @@ public class SqlHelper {
         try (Connection conn = connectionFactory.getConnection();
              PreparedStatement ps = conn.prepareStatement(sqlString)) {
             return executor.execute(ps);
-        } catch (SQLException e) {
-            throw ExceptionUtil.convertException(e);
+        } catch (SQLException | ClassNotFoundException e) {
+            if (e instanceof SQLException) {
+                throw ExceptionUtil.convertException((SQLException) e);
+            }
         }
+        return null;
     }
 
     public <T> T transactionalExecute(SqlTransaction<T> executor) {
@@ -37,7 +40,7 @@ public class SqlHelper {
                 conn.rollback();
                 throw ExceptionUtil.convertException(e);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             throw new StorageException(e);
         }
     }
