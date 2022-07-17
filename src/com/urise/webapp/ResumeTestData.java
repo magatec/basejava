@@ -11,13 +11,13 @@ public class ResumeTestData {
     public static Resume doTest(String uuid, String fullName) {
         Resume resume = new Resume(uuid, fullName);
 
-//        resume.setContacts(ContactType.TELEPHONE, "111");
-//        resume.setContacts(ContactType.HOMEPAGE, "url_1");
-//        resume.setContacts(ContactType.MAIL, "mail_1@mail");
-//        resume.setContacts(ContactType.GITHUB, "git.com");
-//        resume.setContacts(ContactType.LINKEDIN, "linkedin.com");
-//        resume.setContacts(ContactType.SKYPE, "skype.com");
-//        resume.setContacts(ContactType.STACKOVERFLOW, "stac.com");
+        resume.setContacts(ContactType.TELEPHONE, "111");
+        resume.setContacts(ContactType.HOMEPAGE, "url_1");
+        resume.setContacts(ContactType.MAIL, "mail_1@mail");
+        resume.setContacts(ContactType.GITHUB, "git.com");
+        resume.setContacts(ContactType.LINKEDIN, "linkedin.com");
+        resume.setContacts(ContactType.SKYPE, "skype.com");
+        resume.setContacts(ContactType.STACKOVERFLOW, "stac.com");
 //
 //        resume.setSections(SectionType.PERSONAL, new TextSection("Personal"));
 //

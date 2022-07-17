@@ -25,6 +25,7 @@ public abstract class AbstractStorageTest {
     private static final String UUID_0 = UUID.randomUUID().toString();
     private static final String FULLNAME_0 = "fullName0";
     private static final Resume RESUME_0 = new Resume(UUID_0, FULLNAME_0);
+
     private static final String UUID_1 = UUID.randomUUID().toString();
     private static final String FULLNAME_1 = "fullName1";
     private static final Resume RESUME_1 = new Resume(UUID_1, FULLNAME_1);
@@ -40,6 +41,13 @@ public abstract class AbstractStorageTest {
 
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;
+    }
+
+    static {
+        RESUME_0.setContacts(ContactType.TELEPHONE, "00000000");
+        RESUME_1.setContacts(ContactType.TELEPHONE, "11111111");
+        RESUME_2.setContacts(ContactType.TELEPHONE, "22222222");
+        RESUME_3.setContacts(ContactType.TELEPHONE, "33333333");
     }
 
     @BeforeEach
@@ -72,6 +80,7 @@ public abstract class AbstractStorageTest {
     @Test
     void update() {
         Resume newResume = new Resume(UUID_1, "New Name");
+        newResume.setContacts(ContactType.TELEPHONE, "01010101");
         storage.update(newResume);
         assertEquals(newResume, storage.get(UUID_1));
     }
