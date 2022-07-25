@@ -6,6 +6,8 @@ import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.ContactType;
 import com.urise.webapp.model.Resume;
+import com.urise.webapp.model.SectionType;
+import com.urise.webapp.model.TextSection;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -45,9 +47,13 @@ public abstract class AbstractStorageTest {
 
     static {
         RESUME_0.setContacts(ContactType.TELEPHONE, "00000000");
+        RESUME_0.setSections(SectionType.PERSONAL, new TextSection("Personal_0"));
         RESUME_1.setContacts(ContactType.TELEPHONE, "11111111");
+        RESUME_1.setSections(SectionType.PERSONAL, new TextSection("Personal_1"));
         RESUME_2.setContacts(ContactType.TELEPHONE, "22222222");
+        RESUME_2.setSections(SectionType.PERSONAL, new TextSection("Personal_2"));
         RESUME_3.setContacts(ContactType.TELEPHONE, "33333333");
+        RESUME_3.setSections(SectionType.PERSONAL, new TextSection("Personal_3"));
     }
 
     @BeforeEach

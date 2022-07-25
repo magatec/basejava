@@ -18,11 +18,11 @@ public class ResumeTestData {
         resume.setContacts(ContactType.LINKEDIN, "linkedin.com");
         resume.setContacts(ContactType.SKYPE, "skype.com");
         resume.setContacts(ContactType.STACKOVERFLOW, "stac.com");
-//
-//        resume.setSections(SectionType.PERSONAL, new TextSection("Personal"));
-//
-//        resume.setSections(SectionType.OBJECTIVE, new TextSection("Objective"));
-//
+
+        resume.setSections(SectionType.PERSONAL, new TextSection("Personal"));
+
+        resume.setSections(SectionType.OBJECTIVE, new TextSection("Objective"));
+
 //        List<String> achievList = new ArrayList<>();
 //        achievList.add("Achivement_1");
 //        achievList.add("Achivement_2");
