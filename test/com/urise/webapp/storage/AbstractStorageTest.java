@@ -47,12 +47,16 @@ public abstract class AbstractStorageTest {
 
     static {
         RESUME_0.setContacts(ContactType.TELEPHONE, "00000000");
+        RESUME_0.setContacts(ContactType.MAIL, "mail0@mail.ru");
         RESUME_0.setSections(SectionType.PERSONAL, new TextSection("Personal_0"));
         RESUME_1.setContacts(ContactType.TELEPHONE, "11111111");
+        RESUME_1.setContacts(ContactType.MAIL, "mail1@mail.ru");
         RESUME_1.setSections(SectionType.PERSONAL, new TextSection("Personal_1"));
         RESUME_2.setContacts(ContactType.TELEPHONE, "22222222");
+        RESUME_2.setContacts(ContactType.MAIL, "mail2@mail.ru");
         RESUME_2.setSections(SectionType.PERSONAL, new TextSection("Personal_2"));
         RESUME_3.setContacts(ContactType.TELEPHONE, "33333333");
+        RESUME_3.setContacts(ContactType.MAIL, "mail3@mail.ru");
         RESUME_3.setSections(SectionType.PERSONAL, new TextSection("Personal_3"));
     }
 
