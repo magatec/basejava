@@ -120,7 +120,6 @@ public abstract class AbstractStorageTest {
     @Test
     void getAllSorted() {
         List<Resume> actual = storage.getAllSorted();
-//        List<Resume> expected = Arrays.asList(RESUME_1, RESUME_2, RESUME_3, RESUME_4);
         List<Resume> expected = new ArrayList<>();
         expected.add(RESUME_1);
         expected.add(RESUME_2);

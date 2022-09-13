@@ -2,12 +2,14 @@ package com.urise.webapp.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 
 public class Organization extends OrganizationSection implements Serializable {
     private static final long serialVersionUID = 1L;
+    public static final Organization EMPTY = new Organization("", Arrays.asList(Period.EMPTY));
     private final String name;
     private String url;
     private final List<Period> periods;

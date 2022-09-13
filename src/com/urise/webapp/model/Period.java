@@ -8,6 +8,7 @@ import java.util.Objects;
 
 
 public class Period extends Organization {
+    public static final Period EMPTY = new Period();
     @XmlJavaTypeAdapter(LocalDateAdapter.class)
     private LocalDate start;
     @XmlJavaTypeAdapter(LocalDateAdapter.class)
