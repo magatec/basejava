@@ -3,6 +3,8 @@ package com.urise.webapp.web;
 import com.urise.webapp.Config;
 import com.urise.webapp.model.*;
 import com.urise.webapp.storage.Storage;
+import com.urise.webapp.util.DateUtil;
+import com.urise.webapp.util.HtmlUtil;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -91,10 +93,49 @@ public class ResumeServlet extends HttpServlet {
         r.setFullName(fullName);
         for (ContactType type : ContactType.values()) {
             String value = request.getParameter(type.name());
-            if (value != null && value.trim().length() != 0) {
+            if (!HtmlUtil.isEmpty(value)) {
                 r.setContacts(type, value);
             } else {
                 r.getContacts().remove(type);
+            }
+        }
+        for (SectionType type : SectionType.values()) {
+            String value = request.getParameter(type.name());
+            String[] values = request.getParameterValues(type.name());
+            if (HtmlUtil.isEmpty(value) && values.length < 2) {
+                r.getSections().remove(type);
+            }
+            else {
+                switch (type) {
+                    case OBJECTIVE:
+                    case PERSONAL:
+                        r.setSections(type, new TextSection(value));
+                        break;
+                    case ACHIEVEMENT:
+                    case QUALIFICATIONS:
+                        r.setSections(type, new ListSection(value.split("\n")));
+                        break;
+                    case EDUCATION:
+                    case EXPERIENCE:
+                        List<Organization> org = new ArrayList<>();
+                        String[] urls = request.getParameterValues(type.name() + "_url");
+                        for (int i = 0; i < values.length; i++) {
+                            List<Period> periods = new ArrayList<>();
+                            String name = values[i];
+                            if (!HtmlUtil.isEmpty(name)) {
+                                String pref = type.name() + i;
+                                String[] startDates  = request.getParameterValues(pref + "startDate");
+                                String[] endDates  = request.getParameterValues(pref + "endDate");
+                                String[] titles  = request.getParameterValues(pref + "title");
+                                String[] descriptions  = request.getParameterValues(pref + "description");
+                                for (int j = 0; j < titles.length; j++) {
+                                    periods.add(new Period(DateUtil.parse(startDates[j]), DateUtil.parse(endDates[j]), titles[j], descriptions[j]));
+                                }
+                            }
+                            org.add(new Organization(name, urls[i], periods ));
+                        }
+                        break;
+                }
             }
         }
         storage.update(r);

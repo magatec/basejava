@@ -43,7 +43,7 @@
                     <textarea name="${type}" cols=75 rows=5>
                         <%=String.join("\n", ((ListSection) section).getItems())%></textarea>
                 </c:when>
-                <c:when test="${type=='EXPERIENCE' || 'EDUCATION'}">
+                <c:when test="${type=='EXPERIENCE' || type=='EDUCATION'}">
                     <c:forEach var="org" items="<%=((OrganizationSection) section).getList()%>"
                                varStatus="counter">
                         <dl>
@@ -75,13 +75,13 @@
                                 <dl>
                                     <dt>Должность:</dt>
                                     <dd><input type="text" name="${type}${counter.index}title" size=75
-                                               value="${pos.title}" >
+                                               value="${pos.title}">
                                     </dd>
                                 </dl>
                                 <dl>
                                     <dt>Описание:</dt>
                                     <dd><textarea name="${type}${counter.index}description" rows=2 cols=75
-                                            value="${pos.description}" placeholder="">
+                                                  value="${pos.description}" placeholder="">
                                     </textarea></dd>
                                 </dl>
                             </c:forEach>
