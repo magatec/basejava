@@ -1,6 +1,7 @@
 package com.urise.webapp.web;
 
 import com.urise.webapp.Config;
+import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.*;
 import com.urise.webapp.storage.Storage;
 import com.urise.webapp.util.DateUtil;
@@ -11,6 +12,7 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ResumeServlet extends HttpServlet {
@@ -38,6 +40,9 @@ public class ResumeServlet extends HttpServlet {
                 return;
             case "view":
                 r = storage.get(uuid);
+                break;
+            case "add":
+                r = Resume.EMPTY;
                 break;
             case "edit":
                 r = storage.get(uuid);
@@ -104,8 +109,7 @@ public class ResumeServlet extends HttpServlet {
             String[] values = request.getParameterValues(type.name());
             if (HtmlUtil.isEmpty(value) && values.length < 2) {
                 r.getSections().remove(type);
-            }
-            else {
+            } else {
                 switch (type) {
                     case OBJECTIVE:
                     case PERSONAL:
@@ -113,7 +117,14 @@ public class ResumeServlet extends HttpServlet {
                         break;
                     case ACHIEVEMENT:
                     case QUALIFICATIONS:
-                        r.setSections(type, new ListSection(value.split("\n")));
+                        String[] stringValues = value.split("\r\n");
+                        List<String> stringList = new ArrayList<>();
+                        for (String str : stringValues) {
+                            if (!str.equals("")) {
+                                stringList.add(str);
+                            }
+                        }
+                        r.setSections(type, new ListSection(stringList));
                         break;
                     case EDUCATION:
                     case EXPERIENCE:
@@ -124,15 +135,15 @@ public class ResumeServlet extends HttpServlet {
                             String name = values[i];
                             if (!HtmlUtil.isEmpty(name)) {
                                 String pref = type.name() + i;
-                                String[] startDates  = request.getParameterValues(pref + "startDate");
-                                String[] endDates  = request.getParameterValues(pref + "endDate");
-                                String[] titles  = request.getParameterValues(pref + "title");
-                                String[] descriptions  = request.getParameterValues(pref + "description");
+                                String[] startDates = request.getParameterValues(pref + "startDate");
+                                String[] endDates = request.getParameterValues(pref + "endDate");
+                                String[] titles = request.getParameterValues(pref + "title");
+                                String[] descriptions = request.getParameterValues(pref + "description");
                                 for (int j = 0; j < titles.length; j++) {
                                     periods.add(new Period(DateUtil.parse(startDates[j]), DateUtil.parse(endDates[j]), titles[j], descriptions[j]));
                                 }
                             }
-                            org.add(new Organization(name, urls[i], periods ));
+                            org.add(new Organization(name, urls[i], periods));
                         }
                         break;
                 }

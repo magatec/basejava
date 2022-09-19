@@ -18,7 +18,7 @@
         <input type="hidden" name="uuid" value="${resume.uuid}">
         <dl>
             <dt>Имя:</dt>
-            <dd><input type="text" name="fullName" size=50 value="${resume.fullName}"></dd>
+            <dd><input type="text" name="fullName" size=50 value="${resume.fullName}"placeholder="ФИО" required></dd>
         </dl>
         <h3>Контакты:</h3>
         <c:forEach var="type" items="<%=ContactType.values()%>">
@@ -40,8 +40,7 @@
                     <textarea name="${type}" cols=75 rows=5><%=((TextSection) section).getContent()%></textarea>
                 </c:when>
                 <c:when test="${type=='QUALIFICATIONS' || type=='ACHIEVEMENT'}">
-                    <textarea name="${type}" cols=75 rows=5>
-                        <%=String.join("\n", ((ListSection) section).getItems())%></textarea>
+                    <textarea name="${type}" cols=75 rows=5><%=String.join("\n", ((ListSection) section).getItems())%></textarea>
                 </c:when>
                 <c:when test="${type=='EXPERIENCE' || type=='EDUCATION'}">
                     <c:forEach var="org" items="<%=((OrganizationSection) section).getList()%>"
@@ -80,9 +79,7 @@
                                 </dl>
                                 <dl>
                                     <dt>Описание:</dt>
-                                    <dd><textarea name="${type}${counter.index}description" rows=2 cols=75
-                                                  value="${pos.description}" placeholder="">
-                                    </textarea></dd>
+                                    <dd><textarea name="${type}${counter.index}description" rows=2 cols=75 value="${pos.description}" placeholder=""></textarea></dd>
                                 </dl>
                             </c:forEach>
                         </div>
